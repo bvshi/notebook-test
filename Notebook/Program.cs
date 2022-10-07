@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace Notebook
 {
-     class Program
+    class Program
 
     {
         static void Main(string[] args)
@@ -12,28 +13,60 @@ namespace Notebook
             // przechowywanie notatek - zapis i odczyt do/z pliku
             //* interaktywne menu - poruszanie sie strzalkami po menu
 
-            
+
             {
+                
                 string[] options = new string[] { "Wyświetl notatki\t", "Dodaj nową notatkę\t", "Wyjdź z programu\t" };
                 Menu mainMenu = new Menu(options);
                 int selectedIndex = mainMenu.Run();
 
-                switch (selectedIndex)
-                {
-                    case 0:
-                        //ReadNotesFromFile();
-                        break;
-                    case 1:
-                        //WriteNotesToFile();
-                        break;
-                    case 2:
-                        Exit();
-                        break;
-                }
-            } 
-        }
+                
 
+                switch (selectedIndex)
+                    {
+                        case 0:
+                        
+
+                        //ReadNotesFromFile(???);
+
+                        break;
+
+                        case 1:
+
+                        NoteIO.WriteNotesToFile(); // co musi zawierac sie w tej metodzie w nawiasach?
+
+                        //List<Note> noteList = new List<Note>();
+                        //Console.WriteLine("Podaj tytuł notatki");
+                        //string? noteTitle = Console.ReadLine();
+                        //Console.WriteLine("Wpisz opis notatki");
+                        //string? noteDescription = Console.ReadLine();
+                        //Console.WriteLine("Wpisz treść notatki");
+                        //string? noteContent = Console.ReadLine();
+
+                        //Note newNote = new Note(noteTitle, noteDescription, noteContent);
+                        //noteList.Add(newNote);
+
+
+
+                        //string noteJson = JsonConvert.SerializeObject(noteList);
+
+                        //File.AppendAllText(_path, noteJson);
+
+
+                        break;
+
+                        case 2:
+                            {
+                                Exit();
+                                break;
+                            }
+                    }
+                
+        }
+    }
         static string _path = Path.Combine(Environment.CurrentDirectory, "Notes.txt");
+
+
 
         // zapis do pliku
         static void SaveToFile(string text)
