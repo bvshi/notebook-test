@@ -7,14 +7,15 @@ using Newtonsoft.Json;
 using System.IO;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Security.Cryptography.X509Certificates;
 
 namespace Notebook
 {
     class NoteIO
     {
-        public static void WriteNotesToFile(List<Note> notes, string _path) // gdzie utworzyc sciezke _path? w metodzie, poza nia w tej samej klasie czy w Program.cs?
+        public static void WriteNotesToFile(List<Note> notes, string path)
         {
-            List<Note> noteList = new List<Note>();
+            
             Console.WriteLine("Podaj tytuł notatki");
             string? noteTitle = Console.ReadLine();
             Console.WriteLine("Wpisz opis notatki");
@@ -23,20 +24,23 @@ namespace Notebook
             string? noteContent = Console.ReadLine();
 
             Note newNote = new Note (noteTitle, noteDescription, noteContent);
-            noteList.Add (newNote);
+            notes.Add (newNote);
 
-            string noteJson = JsonConvert.SerializeObject(noteList);
+            string serializeNote = JsonConvert.SerializeObject(notes);
 
-            string filePath = @"C:\json.txt";
-            
-            File.AppendAllText(filePath, noteJson); // co zwracać zamiast noteJson jeśli użyję AppendAllLines? chciałbym aby notatki zapisywaly sie w pliku jedna pod druga
+
+            File.AppendAllText(path, serializeNote);
 
         }
 
 
-        public List<Note> ReadNotesFromFile(string _path)
+        public static List<Note> ReadNotesFromFile(string path)
         {
-           
+            string readSerializedNote = File.ReadAllText(path);
+            List<Note> deserializedNote = JsonConvert.DeserializeObject<List<Note>>(readSerializedNote);
+            
+            return deserializedNote;
         }
+         
     }
 }

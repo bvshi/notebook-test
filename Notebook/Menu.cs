@@ -17,7 +17,7 @@ namespace Notebook
             SelectedIndex = 0;
         }
 
-        public void DisplayMenu()
+        private void DisplayMenu()
         {
             for (int i = 0; i < Options.Length; i++)
             {

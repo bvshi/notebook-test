@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using Newtonsoft.Json;
 
 namespace Notebook
@@ -15,67 +16,40 @@ namespace Notebook
 
 
             {
-                
+
                 string[] options = new string[] { "Wyświetl notatki\t", "Dodaj nową notatkę\t", "Wyjdź z programu\t" };
+                List<Note> notes = new List<Note>();
                 Menu mainMenu = new Menu(options);
+                
                 int selectedIndex = mainMenu.Run();
-
                 
-
+                
                 switch (selectedIndex)
-                    {
-                        case 0:
+                {
+                    case 0:
+                        NoteIO.ReadNotesFromFile(_path);
                         
+                        break; 
 
-                        //ReadNotesFromFile(???);
+                    case 1:
 
+                        NoteIO.WriteNotesToFile(notes, _path);
                         break;
 
-                        case 1:
+                    case 2:
+                        {
+                            Exit();
+                            break;
+                        }
+                }
 
-                        NoteIO.WriteNotesToFile(); // co musi zawierac sie w tej metodzie w nawiasach?
-
-                        //List<Note> noteList = new List<Note>();
-                        //Console.WriteLine("Podaj tytuł notatki");
-                        //string? noteTitle = Console.ReadLine();
-                        //Console.WriteLine("Wpisz opis notatki");
-                        //string? noteDescription = Console.ReadLine();
-                        //Console.WriteLine("Wpisz treść notatki");
-                        //string? noteContent = Console.ReadLine();
-
-                        //Note newNote = new Note(noteTitle, noteDescription, noteContent);
-                        //noteList.Add(newNote);
-
-
-
-                        //string noteJson = JsonConvert.SerializeObject(noteList);
-
-                        //File.AppendAllText(_path, noteJson);
-
-
-                        break;
-
-                        case 2:
-                            {
-                                Exit();
-                                break;
-                            }
-                    }
-                
+            }
         }
-    }
-        static string _path = Path.Combine(Environment.CurrentDirectory, "Notes.txt");
+        private static string _path = Path.Combine(Environment.CurrentDirectory, "Notes.json");
 
-
-
-        // zapis do pliku
-        static void SaveToFile(string text)
-        {
-            File.WriteAllText(_path, text);
-        }
 
         // odczytywanie z pliku
-        static string ReadFromFile()
+        static string InitializeData()
         {
             if (File.Exists(_path))
             {
@@ -86,22 +60,6 @@ namespace Notebook
                 return "brak notatek";
             }
 
-        }
-
-        // wyswietlanie zapisanej notatki
-        public static void ShowNotes()
-        {
-            Console.WriteLine("Wyswietlono notatke");
-            string note = ReadFromFile();
-            Console.WriteLine(note);
-        }
-
-        // dodawanie nowej notatki
-        public static void AddNotes()
-        {
-            Console.WriteLine("Wpisz treść notatki");
-            string? content = Console.ReadLine();
-            SaveToFile(content);
         }
 
         // wyjscie z programu
